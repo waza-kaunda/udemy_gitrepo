@@ -1,3 +1,4 @@
+
 package com.devopsbuddy.backend.persistence.domain.backend;
 
 import java.io.Serializable;
@@ -28,11 +29,13 @@ public class UserRole implements Serializable {
 	@JoinColumn(name = "role_id")
 	private Role role;
 
-	public UserRole() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public UserRole() {}
 
+	public UserRole(User user, Role role){
+		this.user = user;
+		this.role = role;
+	}
+	
 	public User getUser() {
 		return user;
 	}
