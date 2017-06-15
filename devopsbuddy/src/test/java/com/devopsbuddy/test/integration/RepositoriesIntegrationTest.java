@@ -60,24 +60,7 @@ public class RepositoriesIntegrationTest {
 	@Test
 	public void testCreateNewUser() throws Exception {
 		
-		Plan basicPlan = createPlan(PlansEnum.BASIC);
-		planRepository.save(basicPlan);
-		
-		User basicUser = UserUtils.createBasicUser();
-		basicUser.setPlan(basicPlan);
-		
-		Role basicRole = createRole(RolesEnum.BASIC);
-		Set<UserRole> userRoles = new HashSet<>();
-		UserRole userRole = new UserRole(basicUser, basicRole);
-		userRoles.add(userRole);
-		
-		basicUser.getUserRoles().addAll(userRoles);
-		
-		for(UserRole ur : userRoles){
-			roleRepository.save(ur.getRole());
-		}
-		
-		basicUser = userRepository.save(basicUser);
+		User basicUser = createUser();
 		User newlyCreatedUser = userRepository.findOne(basicUser.getId());
 		
 		Assert.assertNotNull(newlyCreatedUser);
@@ -92,6 +75,13 @@ public class RepositoriesIntegrationTest {
 		}
 		
 	}
+	
+	@Test
+	public void testDeleteUser() throws Exception{
+		User basicUser = createUser();
+		userRepository.delete(basicUser.getId());
+		
+	}
 
 	private Plan createPlan(PlansEnum planEnum) {	
 		return new Plan(planEnum);
@@ -99,6 +89,27 @@ public class RepositoriesIntegrationTest {
 
 	private Role createRole(RolesEnum rolesEnum) {		
 		return new Role(rolesEnum);
+	}
+	
+	private User createUser(){
+
+		Plan basicPlan = createPlan(PlansEnum.BASIC);
+		planRepository.save(basicPlan);
+		
+		User user = UserUtils.createBasicUser();
+		user.setPlan(basicPlan);
+		
+		Role basicRole = createRole(RolesEnum.BASIC);
+		roleRepository.save(basicRole);
+		
+		Set<UserRole> userRoles = new HashSet<>();
+		UserRole userRole = new UserRole(user, basicRole);
+		userRoles.add(userRole);
+		
+		user.getUserRoles().addAll(userRoles);
+		user = userRepository.save(user);
+		
+		return user;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.devopsbuddy.config;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -10,12 +11,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import com.devopsbuddy.backend.service.UserSecurityService;
+import com.devopsbuddy.backend.service.UserService;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	private UserSecurityService userSecurityService;
 	
 	/** Public URLs */
 	private static final String[] PUBLIC_MATCHERS = { "/webjars/**", "/css/**", "/js/**", "/images/**", "/",
@@ -39,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
+		auth.userDetailsService(userSecurityService);
 	}
 
 }
