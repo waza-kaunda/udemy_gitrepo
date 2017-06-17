@@ -8,12 +8,12 @@ public class UserUtils {
 		throw new AssertionError("Non Instatiable");
 	}
 	
-	public static User createBasicUser() {
+	public static User createUser(String username, String email) {
 
 		User user = new User();
-		user.setUsername("basicUser");
+		user.setUsername(username);
 		user.setPassword("secret");
-		user.setEmail("me@emaple.com");
+		user.setEmail(email);
 		user.setFirstName("firstname");
 		user.setLastName("lastname");
 		user.setPhoneNumber("123456789");
