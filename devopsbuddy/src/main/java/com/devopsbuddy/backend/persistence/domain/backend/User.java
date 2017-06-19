@@ -27,52 +27,60 @@ public class User implements Serializable, UserDetails {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column(unique = true)
 	private String username;
-	
+
 	private String password;
-	
+
 	@Column(unique = true)
 	private String email;
-	
+
 	private Boolean enabled;
-	
-	@Column(name="first_name")
+
+	@Column(name = "first_name")
 	private String firstName;
-	
-	@Column(name="last_name")
+
+	@Column(name = "last_name")
 	private String lastName;
-	
-	@Column(name="phone_number")
+
+	@Column(name = "phone_number")
 	private String phoneNumber;
-	
+
 	@Length(max = 500)
 	private String description;
-	
+
 	private String country;
-	
-	@Column(name="profile_image_url")
+
+	@Column(name = "profile_image_url")
 	private String profileImageUrl;
-	
-	@Column(name="stripe_customer_id")
+
+	@Column(name = "stripe_customer_id")
 	private String stripeCustomerId;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "plan_id")
 	private Plan plan;
-	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	@OneToMany(
+			mappedBy = "user", 
+			cascade = CascadeType.ALL, 
+			fetch = FetchType.EAGER)
 	private Set<UserRole> userRoles = new HashSet<>();
-		
-	
-	/** Default constructor*/	
-	public User(){
-		
+
+	@OneToMany(
+			mappedBy = "user", 
+			cascade = CascadeType.ALL, 
+			fetch = FetchType.LAZY)
+	private Set<PasswordResetToken> passwordResetToken;
+
+	/** Default constructor */
+	public User() {
+
 	}
 
 	/** Getters and Setters */
@@ -179,9 +187,13 @@ public class User implements Serializable, UserDetails {
 	public void setPlan(Plan plan) {
 		this.plan = plan;
 	}
-	
+
 	public Set<UserRole> getUserRoles() {
 		return userRoles;
+	}
+
+	public Set<PasswordResetToken> getPasswordResetToken() {
+		return passwordResetToken;
 	}
 
 	@Override
@@ -192,17 +204,17 @@ public class User implements Serializable, UserDetails {
 	}
 
 	@Override
-	public boolean isAccountNonExpired() {		
+	public boolean isAccountNonExpired() {
 		return true;
 	}
 
 	@Override
-	public boolean isAccountNonLocked() {		
+	public boolean isAccountNonLocked() {
 		return true;
 	}
 
 	@Override
-	public boolean isCredentialsNonExpired() {		
+	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
@@ -210,5 +222,5 @@ public class User implements Serializable, UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-	
+
 }
