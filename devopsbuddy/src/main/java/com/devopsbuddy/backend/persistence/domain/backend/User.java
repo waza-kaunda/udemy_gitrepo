@@ -20,11 +20,16 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * A User Jpa Entity
+ * @author WazaK
+ *
+ */
 @Entity
 public class User implements Serializable, UserDetails {
 
 	/**
-	 * 
+	 * The default serlia version id
 	 */
 	private static final long serialVersionUID = 1L;
 
