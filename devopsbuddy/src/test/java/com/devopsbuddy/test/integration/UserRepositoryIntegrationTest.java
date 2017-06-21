@@ -1,9 +1,14 @@
 
 package com.devopsbuddy.test.integration;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Set;
+import java.util.UUID;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -20,10 +25,11 @@ import com.devopsbuddy.enums.RolesEnum;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class UserIntegrationTest extends AbstractIntegrationTest {
+public class UserRepositoryIntegrationTest extends AbstractIntegrationTest {
 
-	@Rule public TestName testName;
+	@Rule public TestName testName = new TestName();
 	
+	@Before
 	public void init() {
 		Assert.assertNotNull(planRepository);
 		Assert.assertNotNull(roleRepository);
@@ -47,9 +53,8 @@ public class UserIntegrationTest extends AbstractIntegrationTest {
 	}
 	
 	@Test
-	public void testCreateNewUser() throws Exception {
+	public void testCreateNewUser() throws Exception {		
 		
-		testName = new TestName();
 		String username = testName.getMethodName();
 		String email = testName.getMethodName() + "devopsbuddy.com";
 		
@@ -71,13 +76,39 @@ public class UserIntegrationTest extends AbstractIntegrationTest {
 	
 	@Test
 	public void testDeleteUser() throws Exception{
-		testName = new TestName();
+		
 		String username = testName.getMethodName();
 		String email = testName.getMethodName() + "devopsbuddy.com";
 		
 		User basicUser = createNewUser(username, email);
 		userRepository.delete(basicUser.getId());
 		
+	}
+	
+	@Test
+	public void testGetUserByEmail() throws Exception{
+				
+		User user = createUser(testName);		
+		User newlyFoundUser = userRepository.findByEmail(user.getEmail());
+		assertNotNull(newlyFoundUser);
+		assertNotNull(newlyFoundUser.getId());
+		
+	}
+	
+	@Test
+	public void testUpdateUserPassword() throws Exception {
+		
+		User user = createUser(testName);		
+		assertNotNull(user);
+		assertNotNull(user.getId());
+		
+		String newPassword = UUID.randomUUID().toString();
+		
+		userRepository.updateUserPassword(user.getId(), newPassword);
+		
+		user = userRepository.findOne(user.getId());
+		assertEquals(newPassword, user.getPassword());
+				
 	}
 
 }
