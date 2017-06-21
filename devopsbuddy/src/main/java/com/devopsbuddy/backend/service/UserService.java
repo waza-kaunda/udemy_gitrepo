@@ -2,6 +2,8 @@ package com.devopsbuddy.backend.service;
 
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,19 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder; 
 	
+	/**
+	 * The application logger
+	 */	
+	private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
+	
+	/**
+	 * Creates a new user with a plan and roles
+	 * @param user
+	 * @param planEnum
+	 * @param userRoles
+	 * @return
+	 */
 	@Transactional
 	public User createUser(User user, PlansEnum planEnum, Set<UserRole> userRoles){
 		
@@ -56,6 +71,28 @@ public class UserService {
 				
 		return user;		
 		
+	}
+	
+	/**
+	 * Updates a given users password
+	 * @param userId
+	 * @param password
+	 */
+	@Transactional
+	public void updateUserPassword(long userId, String password){
+		password = passwordEncoder.encode(password);
+		userRepository.updateUserPassword(userId, password);
+		log.debug("Password updated successfully for user id {} ", userId);		
+	}
+	
+	/**
+	 * Retrieves a user by id
+	 * @param userId
+	 * @return
+	 */
+	@Transactional
+	public User findById(long userId){
+		return userRepository.findOne(userId);
 	}
 
 }

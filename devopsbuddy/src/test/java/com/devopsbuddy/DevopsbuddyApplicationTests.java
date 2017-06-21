@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.devopsbuddy.web.i18n.I18NService;
+import com.devopsbuddy.backend.service.I18NService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

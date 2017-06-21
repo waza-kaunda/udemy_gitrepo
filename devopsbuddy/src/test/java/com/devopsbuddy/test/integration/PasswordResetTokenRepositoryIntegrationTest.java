@@ -26,7 +26,7 @@ import com.devopsbuddy.backend.persistence.repositories.PasswordResetTokenReposi
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class PasswordResetIntegrationTest extends AbstractIntegrationTest {
+public class PasswordResetTokenRepositoryIntegrationTest extends AbstractIntegrationTest {
 
 	@Value("${token.expiration.length.minutes}")
 	private int expirationTimeInMinutes;
