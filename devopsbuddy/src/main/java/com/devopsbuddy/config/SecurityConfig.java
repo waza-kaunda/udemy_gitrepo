@@ -31,8 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserSecurityService userSecurityService;
 
 	/** Public URLs */
-	private static final String[] PUBLIC_MATCHERS = { "/webjars/**", "/css/**", "/js/**", "/images/**", "/",
-			"/about/**", "/contact/**", "/error/**/*", "/console/**", ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING };
+	private static final String[] PUBLIC_MATCHERS = { 
+			"/webjars/**", 
+			"/css/**", 
+			"/js/**", 
+			"/images/**", 
+			"/",
+			"/about/**", 
+			"/contact/**", 
+			"/error/**/*", 
+			"/console/**", 
+			ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING, 
+			ForgotMyPasswordController.CHANGE_PASSWORD_PATH
+			};
 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
