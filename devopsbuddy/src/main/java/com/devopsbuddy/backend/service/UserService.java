@@ -94,5 +94,25 @@ public class UserService {
 	public User findById(long userId){
 		return userRepository.findOne(userId);
 	}
+	
+	/**
+	 * Find a user by the user name
+	 * @param username
+	 * @return
+	 */
+	@Transactional
+	public User findByUsername(String username){
+		return userRepository.findByUsername(username);
+	}
+	
+	/**
+	 * Finds a user by the users email
+	 * @param email
+	 * @return
+	 */
+	@Transactional
+	public User findByEmail(String email){
+		return userRepository.findByEmail(email);
+	}
 
 }

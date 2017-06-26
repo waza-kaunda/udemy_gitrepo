@@ -10,6 +10,8 @@ import org.springframework.context.annotation.PropertySource;
 import com.devopsbuddy.backend.service.EmailService;
 import com.devopsbuddy.backend.service.MockEmailService;
 
+import uk.co.jemos.podam.api.PodamFactoryImpl;
+
 @Configuration
 @Profile("dev")
 @PropertySource("file:///${user.home}/.devopsbuddy/application-dev.properties")
@@ -27,6 +29,11 @@ public class DevelopmentConfig {
 		bean.addUrlMappings("/console/*");		
 		return bean;
 		
+	}
+	
+	@Bean
+	public PodamFactoryImpl podamFactory(){
+		return new PodamFactoryImpl();
 	}
 
 }
