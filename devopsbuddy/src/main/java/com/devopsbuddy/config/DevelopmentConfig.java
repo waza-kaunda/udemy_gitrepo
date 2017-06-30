@@ -10,6 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 import com.devopsbuddy.backend.service.EmailService;
 import com.devopsbuddy.backend.service.MockEmailService;
 
+import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 @Configuration

@@ -11,20 +11,24 @@
 			<div class="col-md-6 col-md-offset-3">
 
 				<div th:if="${signedUp != null}">
-					<div th:if="${signedUp == 'true'}" class="alert alert-success alert-dismissible" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<div th:if="${signedUp == 'true'}"
+						class="alert alert-success alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
 							<span aria-hidden="true">x</span>
 						</button>
 						<p th:text="#{signup.profile.created.success}" class="text-center" />
 					</div>
-					<div th:if="${signedUp == 'false'}" class="alert alert-danger alert-dismissible" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<div th:if="${signedUp == 'false'}"
+						class="alert alert-danger alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
 							<span aria-hidden="true">x</span>
 						</button>
 						<p th:text="${message}" class="text-center" />
 					</div>
 				</div>
-			
+
 				<div class="well">
 					<h1 th:if="${#httpServletRequest.getParameter('planId') == '1'}"
 						th:text="#{signup.h1.basic.profile}"></h1>
@@ -60,14 +64,12 @@
 						<div class="form-group">
 							<div th:if="${duplicatedEmail}">
 								<label for="email"
-									th:text="#{signup.form.error.email.already.exists}"></label>
-									 <input
+									th:text="#{signup.form.error.email.already.exists}"></label> <input
 									type="email" id="email" th:field="*{email}"
 									class="form-control fieldError" />
 							</div>
 							<div th:if="${duplicatedEmail == null}">
-								<label for="email" th:text="#{form.email}"></label>
-								 <input
+								<label for="email" th:text="#{form.email}"></label> <input
 									type="email" id="email" th:field="*{email}"
 									class="form-control" />
 							</div>
@@ -85,8 +87,8 @@
 						</div>
 						<div class="form-group">
 							<label for="firstName" th:text="#{form.firstname}"></label> <input
-								type="text" id="firstName" name="firstName" th:field="*{firstName}"
-								class="form-control" />
+								type="text" id="firstName" name="firstName"
+								th:field="*{firstName}" class="form-control" />
 						</div>
 						<div class="form-group">
 							<label for="lastName" th:text="#{form.lastname}"></label> <input
@@ -98,9 +100,15 @@
 							<textarea type="text" id="description" class="form-control"
 								rows="4" th:field="*{description}"></textarea>
 						</div>
+
+						<div class="form-group">
+							<label for="file" th:text="#{signup.form.profile.image.url}"></label>
+							<input type="file" id="file" name="file" class="form-control" />
+						</div>
 						<div class="form-group">
 							<label for="country" th:text="#{signup.form.country}"></label> <select
-								class="form-control" id="country" name="country" th:field="*{country}">
+								class="form-control" id="country" name="country"
+								th:field="*{country}">
 								<option value="BG">Bulgaria</option>
 								<option value="BR">Brazil</option>
 								<option value="CN">China</option>
@@ -125,7 +133,8 @@
 						</div>
 						<div class="form-group">
 							<label for="phoneNumber" th:text="#{signup.form.phoneNumber}"></label>
-							<input type="text" id="phoneNumber" name="phoneNumber" class="form-control" th:field="*{phoneNumber}"></input>
+							<input type="text" id="phoneNumber" name="phoneNumber"
+								class="form-control" th:field="*{phoneNumber}"></input>
 						</div>
 						<button type="submit" class="btn btn-primary"
 							th:text="#{form.submit}"></button>
