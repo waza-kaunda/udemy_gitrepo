@@ -19,6 +19,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 @EntityScan(basePackages = "com.devopsbuddy.backend.persistence.domain.backend")
 @EnableTransactionManagement
 @PropertySource("file:///${user.home}/.devopsbuddy/application-common.properties")
+@PropertySource("file:///${user.home}/.devopsbuddy/stripe.properties")
 public class ApplicationConfig {
 
 	@Value("${aws.s3.profile}")
@@ -32,7 +33,7 @@ public class ApplicationConfig {
 	
 	@Value("${cloud.aws.region.static}")
 	private String regionName;
-	
+		
 	@Bean
 	public BasicAWSCredentials basicAWSCredentials(){
 		return new BasicAWSCredentials(accessKey, secretKey);

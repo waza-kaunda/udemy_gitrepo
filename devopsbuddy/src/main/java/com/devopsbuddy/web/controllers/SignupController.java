@@ -2,8 +2,10 @@ package com.devopsbuddy.web.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -29,9 +31,11 @@ import com.devopsbuddy.backend.persistence.domain.backend.User;
 import com.devopsbuddy.backend.persistence.domain.backend.UserRole;
 import com.devopsbuddy.backend.service.PlanService;
 import com.devopsbuddy.backend.service.S3Service;
+import com.devopsbuddy.backend.service.StripeService;
 import com.devopsbuddy.backend.service.UserService;
 import com.devopsbuddy.enums.PlansEnum;
 import com.devopsbuddy.enums.RolesEnum;
+import com.devopsbuddy.utils.StripeUtils;
 import com.devopsbuddy.utils.UserUtils;
 import com.devopsbuddy.web.domain.fronted.ProAccountPayload;
 
@@ -60,6 +64,9 @@ public class SignupController {
 	private UserService userService;
 	@Autowired
 	private S3Service s3Service;
+	
+	@Autowired
+	private StripeService stripeService;
 
 	@GetMapping(value = SIGNUP_URL_MAPPING)
 	public String signUpGet(@RequestParam("planId") int planId, ModelMap model) {
@@ -158,7 +165,24 @@ public class SignupController {
 				return SUBSCRIPTION_VIEW_NAME;				
 			}
 			
+			// If the user has selected the pro account, creates the Stripe customer to store customer id in
+			// the db
+			Map<String, Object> stripeTokenParams = StripeUtils.extractTokenParamsFromSignupPayload(payload);
+			
+			Map<String, Object> customerParams = new HashMap<>();
+			customerParams.put("description", "DevOps buddy customer. Username: " + payload.getUsername());
+			customerParams.put("email", payload.getEmail());
+			customerParams.put("plan", selectedPlan.getId());
+			
+			log.info("Subscribing the customer to plan {}", selectedPlan.getName());
+			String stripeCustomerId = stripeService.createCustomer(stripeTokenParams, customerParams);
+			log.info("Username: {} has been subscribed to Stripe", payload.getUsername());
+
+			user.setStripeCustomerId(stripeCustomerId);			
+			
 			registeredUser = userService.createUser(user, PlansEnum.PRO, roles);
+			log.debug(payload.toString());
+
 		}
 
 		// Auto Login the registered user
