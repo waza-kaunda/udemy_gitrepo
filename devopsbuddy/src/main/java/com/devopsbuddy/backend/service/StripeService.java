@@ -40,19 +40,19 @@ public class StripeService {
 			
 		}catch (AuthenticationException e) {
 			log.error("An authentication exception occured while creating the stripe customer", e);
-			throw new com.devopsbuddy.exceptions.StripeException(); 
+			throw new com.devopsbuddy.exceptions.StripeException(e); 
 		}catch(InvalidRequestException e){
 			log.error("An invalid request exception occured while creating the stripe customer", e);
-			throw new com.devopsbuddy.exceptions.StripeException();
+			throw new com.devopsbuddy.exceptions.StripeException(e);
 		}catch(APIConnectionException e){
 			log.error("An API connection exception occured while creating the stripe customer", e);
-			throw new com.devopsbuddy.exceptions.StripeException();
+			throw new com.devopsbuddy.exceptions.StripeException(e);
 		}catch(CardException e){
 			log.error("A credit card exception occured while creating the stripe customer", e);
-			throw new com.devopsbuddy.exceptions.StripeException();
+			throw new com.devopsbuddy.exceptions.StripeException(e);
 		}catch(APIException e){
 			log.error("An API exception occured while creating the Stripe customer", e);
-			throw new com.devopsbuddy.exceptions.StripeException();
+			throw new com.devopsbuddy.exceptions.StripeException(e);
 		}
 		
 		return stripeCustomerId;
